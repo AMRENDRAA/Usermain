@@ -13,11 +13,15 @@ exports.signup = async (req, res) => {
             password
 
         })
-    } catch (err) {
 
+        res.status(201).json({
+            status: "Success",
+            data: newuser
+        })
+    } catch (err) {
         res.status(500).json({
             status: "failed",
-            err: err.err
+            message: err.message
         })
 
 

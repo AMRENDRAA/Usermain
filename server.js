@@ -3,6 +3,9 @@ const express = require('express');
 const app = express();
 const { connectDB, sequelize } = require('./config/db');
 const userrouter = require('./route/userroute');
+const postrouter = require('./route/postRoute');
+// Import all models and their associations
+require('./Model/index');
 const morgan = require('morgan');
 const cors = require('cors');
 const bodyParser = require('body-parser');
@@ -23,10 +26,12 @@ connectDB();
 //sync the db 
 sequelize.sync().then(() => {
     console.log('Synced with db ');
-
-})
+}).catch((error) => {
+    console.error('Unable to sync with db:', error);
+});
 
 app.use('/api/auth', userrouter);
+app.use('/api', postrouter);
 
 
 app.get('/', (req, res) => {
